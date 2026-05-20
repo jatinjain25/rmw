@@ -147,10 +147,58 @@
     return s.replace(/\.?0+$/, '');
   }
 
+  // ---------- Fit-to-one-page ----------
+  // A4 height in px at 96 dpi (browsers print at this assumption).
+  const A4_HEIGHT_PX = (297 / 25.4) * 96; // ≈ 1122.52
+
+  // Shrinks .invoice-page contents so the whole invoice fits in one A4 page.
+  // Wraps direct children once in .invoice-fit so transform-scale can be applied
+  // without breaking the flex column layout.
+  function fitToOnePage() {
+    const page = document.querySelector('.invoice-page');
+    if (!page) return;
+
+    let fit = page.querySelector(':scope > .invoice-fit');
+    if (!fit) {
+      fit = document.createElement('div');
+      fit.className = 'invoice-fit';
+      // Move all existing children into the wrapper, in order.
+      while (page.firstChild) fit.appendChild(page.firstChild);
+      page.appendChild(fit);
+    }
+
+    // Reset prior fit
+    fit.style.transform = '';
+    fit.style.transformOrigin = '';
+    fit.style.width = '';
+    fit.style.height = '';
+
+    // Force the page to A4 vertical bounds for measurement
+    const pageRect = page.getBoundingClientRect();
+    const targetH  = Math.max(pageRect.height, A4_HEIGHT_PX);
+    const naturalH = fit.scrollHeight;
+
+    if (naturalH > targetH + 0.5) {
+      const scale = (targetH / naturalH) * 0.998; // 0.2% safety margin
+      fit.style.transformOrigin = 'top left';
+      fit.style.transform = `scale(${scale})`;
+      // Compensate the width so the visual width still equals 210mm after scaling
+      fit.style.width = (100 / scale) + '%';
+    }
+  }
+
   function init() {
-    // Print button
+    // Print button — fit again right before opening the print dialog
     const btn = document.getElementById('printBtn');
-    if (btn) btn.addEventListener('click', () => window.print());
+    if (btn) btn.addEventListener('click', () => {
+      fitToOnePage();
+      // Give the layout a frame to settle before opening the dialog
+      setTimeout(() => window.print(), 50);
+    });
+
+    // Re-fit on resize and on the browser's print event (lots of UAs trigger reflow)
+    window.addEventListener('resize', () => requestAnimationFrame(fitToOnePage));
+    window.addEventListener('beforeprint', fitToOnePage);
 
     const data = loadPayload();
     if (!data) {
@@ -170,6 +218,25 @@
     renderBillTo(data.customer);
     renderItems(data.items || []);
     renderTotals(data.items || [], data.taxPct || 0, data.laborCharge || 0);
+
+    // After rendering, wait for web fonts + images, then fit.
+    const refit = () => requestAnimationFrame(fitToOnePage);
+    refit();
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(refit);
+    }
+    // Re-fit once images load (swatch dimensions can shift before fonts/images settle)
+    const imgs = document.querySelectorAll('.invoice-page img');
+    let pending = imgs.length;
+    if (pending === 0) {
+      setTimeout(refit, 60);
+    } else {
+      imgs.forEach(img => {
+        const done = () => { if (--pending === 0) refit(); };
+        if (img.complete) done();
+        else { img.addEventListener('load', done); img.addEventListener('error', done); }
+      });
+    }
   }
 
   document.addEventListener('DOMContentLoaded', init);

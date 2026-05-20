@@ -537,6 +537,18 @@ html, body {
   font-size: 8pt;
 }
 
+/* Defeat browser/OS auto-detection that styles phone numbers and emails
+   as blue links inside the footer — keep everything white. */
+.page-footer a,
+.page-footer a:link,
+.page-footer a:visited,
+.page-footer a:hover,
+.page-footer a:active {
+  color: inherit !important;
+  text-decoration: none !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
 .footer-block {
   display: flex;
   gap: 12px;
@@ -675,19 +687,40 @@ html, body {
 }
 
 /* ============================================================
-   PRINT
+   PRINT — strictly one A4 page, no overflow
    ============================================================ */
 @media print {
   html, body {
     background: #fff;
     padding: 0;
+    margin: 0;
   }
   .invoice-page {
-    margin: 0;
-    box-shadow: none;
-    width: 210mm;
-    min-height: 297mm;
+    margin: 0 !important;
+    box-shadow: none !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    max-height: 297mm !important;
+    overflow: hidden !important;
     transform: none !important;
+    page-break-after: avoid;
+    page-break-inside: avoid;
+    break-after: avoid-page;
+    break-inside: avoid-page;
+  }
+  /* nothing else should ever push to a second page */
+  .invoice-page * {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .invoice-page .items-table tr,
+  .invoice-page .invoice-footer-blocks,
+  .invoice-page .page-footer,
+  .invoice-page .signature-block,
+  .invoice-page .thankyou-strip {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
   * {
     -webkit-print-color-adjust: exact !important;
