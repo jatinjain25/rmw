@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotation — Rajasthan Marble World</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <header class="dash-header">
+    <div class="dash-header-inner">
+      <div class="brand">
+        <div class="brand-mark">RMW</div>
+        <div class="brand-text">
+          <div class="brand-title">Rajasthan Marble World</div>
+          <div class="brand-sub">Invoice / Quotation Dashboard</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a href="index.html" class="btn btn-ghost btn-back-site">← Back to site</a>
+        <button type="button" class="btn btn-ghost" id="resetBtn">Reset</button>
+        <button type="button" class="btn btn-primary" id="generateBtn">Generate Invoice →</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dash-main">
+
+    <!-- ============ BILL TO + INVOICE META ============ -->
+    <section class="card">
+      <h2 class="card-title">Bill To &amp; Invoice Details</h2>
+      <div class="grid">
+        <div class="field span-2">
+          <label>Customer Name</label>
+          <input type="text" id="customerName" placeholder="Mr. / Ms. ..." />
+        </div>
+        <div class="field span-2">
+          <label>Invoice / Quote No.</label>
+          <input type="text" id="invoiceNo" placeholder="RMW/INV/2024-25/058" />
+        </div>
+
+        <div class="field span-4">
+          <label>Address (street, area)</label>
+          <textarea id="customerAddress" rows="2" placeholder="Street, Locality"></textarea>
+        </div>
+
+        <div class="field span-2">
+          <label>City, State – Pincode</label>
+          <input type="text" id="customerCity" placeholder="Hyderabad, Telangana – 500033" />
+        </div>
+        <div class="field span-1">
+          <label>Country</label>
+          <input type="text" id="customerCountry" value="India" />
+        </div>
+        <div class="field span-1">
+          <label>Date</label>
+          <input type="date" id="invoiceDate" />
+        </div>
+
+        <div class="field span-1">
+          <label>Validity</label>
+          <input type="text" id="invoiceValidity" value="30 Days" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LINE ITEMS ============ -->
+    <section class="card">
+      <div class="card-title-row">
+        <h2 class="card-title">Line Items</h2>
+        <button type="button" class="btn btn-outline" id="addRowBtn">+ Add Item</button>
+      </div>
+
+      <div class="items-wrap">
+        <div class="items-head">
+          <div class="col-sr">#</div>
+          <div class="col-mat">Material</div>
+          <div class="col-desc">Description</div>
+          <div class="col-area">Area (sq ft)</div>
+          <div class="col-rate">Rate (₹ / sq ft)</div>
+          <div class="col-amt">Amount (₹)</div>
+          <div class="col-rm"></div>
+        </div>
+        <div class="items-body" id="itemsBody"></div>
+      </div>
+    </section>
+
+    <!-- ============ TOTALS ============ -->
+    <section class="card totals-card">
+      <h2 class="card-title">Totals</h2>
+      <div class="totals">
+        <div class="totals-row">
+          <span class="t-label">Sub Total</span>
+          <span class="t-spacer"></span>
+          <span class="t-amount" id="subTotal">₹ 0.00</span>
+        </div>
+
+        <div class="totals-row totals-row-input">
+          <label for="taxPct" class="t-label">GST / Tax</label>
+          <span class="t-input">
+            <input type="number" id="taxPct" min="0" step="1" value="18" />
+            <span class="unit">%</span>
+          </span>
+          <span class="t-amount" id="taxAmt">₹ 0.00</span>
+        </div>
+
+        <div class="totals-row totals-row-input">
+          <label for="laborCharge" class="t-label">Labour Charge</label>
+          <span class="t-input">
+            <span class="unit-prefix">₹</span>
+            <input type="number" id="laborCharge" min="0" step="0.01" value="0" />
+          </span>
+          <span class="t-amount" id="laborAmt">₹ 0.00</span>
+        </div>
+
+        <div class="totals-row grand">
+          <span class="t-label">Grand Total (INR)</span>
+          <span class="t-spacer"></span>
+          <span class="t-amount" id="grandTotal">₹ 0.00</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ COLOR PICKER MODAL ============ -->
+  <div class="modal" id="colorModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel">
+      <div class="modal-head">
+        <h3>Select Marble Colour</h3>
+        <button type="button" class="modal-close" data-close-modal aria-label="Close">×</button>
+      </div>
+      <div class="modal-search">
+        <input type="text" id="colorSearch" placeholder="Search marble colours..." autocomplete="off" />
+        <span class="modal-count" id="modalCount"></span>
+      </div>
+      <div class="color-grid" id="colorGrid"></div>
+    </div>
+  </div>
+
+  <!-- ============ ROW TEMPLATE ============ -->
+  <template id="rowTpl">
+    <div class="item-row">
+      <div class="col-sr"><span class="sr">1.</span></div>
+      <div class="col-mat">
+        <button type="button" class="color-pick">
+          <span class="swatch swatch-empty"></span>
+          <span class="color-name">Select colour</span>
+        </button>
+      </div>
+      <div class="col-desc">
+        <textarea class="desc-input" rows="2" placeholder="Description (optional)"></textarea>
+      </div>
+      <div class="col-area" data-label="Area (sq ft)">
+        <input type="number" class="area-input" min="0" step="0.01" placeholder="0" />
+      </div>
+      <div class="col-rate" data-label="Rate (₹/sq ft)">
+        <input type="number" class="rate-input" min="0" step="0.01" placeholder="0.00" />
+      </div>
+      <div class="col-amt"><span class="amount">₹ 0.00</span></div>
+      <div class="col-rm">
+        <button type="button" class="row-remove" aria-label="Remove">×</button>
+      </div>
+    </div>
+  </template>
+
+  <script src="js/colors.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

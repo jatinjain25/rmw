@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Vercel
+.vercel
+
+# Editor / local
+.claude/
+.idea/
+.vscode/
+*.swp
+*~
+
+# Dependencies (no build step today, but future-proof)
+node_modules/

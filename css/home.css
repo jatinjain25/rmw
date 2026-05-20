@@ -1,0 +1,363 @@
+/* =============================================================
+   Home page — Rajasthan Marble World
+   ============================================================= */
+
+/* ===================== HERO ===================== */
+.hero {
+  position: relative;
+  background-color: var(--rmw-green-deep);
+  background-image:
+    linear-gradient(135deg, rgba(10,46,34,0.78) 0%, rgba(13,58,43,0.62) 60%, rgba(13,58,43,0.85) 100%),
+    url('../assets/bg-green-granite.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 60% at 50% 40%, rgba(212, 176, 112, 0.18), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 48px;
+  align-items: center;
+  padding: 96px 0 104px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--rmw-gold-light);
+  margin-bottom: 22px;
+  padding: 8px 14px;
+  border: 1px solid rgba(212, 176, 112, 0.4);
+  border-radius: 999px;
+  background: rgba(13, 58, 43, 0.4);
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--rmw-gold-light);
+  border-radius: 50%;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(38px, 6vw, 70px);
+  line-height: 1.05;
+  letter-spacing: 0.5px;
+  color: #fff;
+  margin-bottom: 22px;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--rmw-gold-light);
+  font-weight: 500;
+}
+
+.hero-sub {
+  font-size: 17px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.85);
+  max-width: 540px;
+  margin-bottom: 36px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.hero-side {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-badge-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 280px;
+  padding: 36px 28px;
+  background: rgba(245, 239, 227, 0.06);
+  border: 1px solid rgba(212, 176, 112, 0.35);
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.hero-badge-card .badge-25-years {
+  width: 160px;
+  height: 150px;
+}
+
+.hero-badge-card .badge-25-years text { fill: var(--rmw-gold-light) !important; }
+.hero-badge-card .badge-25-years g    { fill: var(--rmw-gold-light) !important; }
+
+.hero-badge-label {
+  margin-top: 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+  text-align: center;
+}
+
+.hero-est {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  letter-spacing: 6px;
+  font-weight: 500;
+  color: var(--rmw-gold-light);
+  margin-top: 4px;
+}
+
+/* ===================== VALUE PROPS ===================== */
+.value-props {
+  background: var(--rmw-ivory);
+  padding: 72px 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.value-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.value-card {
+  text-align: center;
+  padding: 28px 18px;
+}
+
+.value-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: var(--rmw-cream);
+  border: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rmw-green);
+}
+
+.value-icon svg { width: 26px; height: 26px; }
+
+.value-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: .5px;
+}
+
+.value-body {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* ===================== CATALOG TEASER ===================== */
+.catalog-teaser {
+  background: #fff;
+  padding: 88px 0;
+}
+
+.teaser-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.teaser-head .section-title { margin-bottom: 4px; }
+.teaser-head .section-lead { margin-bottom: 0; max-width: 520px; }
+
+.teaser-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+}
+
+.teaser-tile {
+  position: relative;
+  aspect-ratio: 1 / 1.1;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--rmw-cream);
+  cursor: pointer;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.teaser-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s ease;
+}
+
+.teaser-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(13, 58, 43, 0.18);
+}
+.teaser-tile:hover img { transform: scale(1.06); }
+
+.teaser-tile-name {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 18px 12px 12px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.teaser-foot {
+  margin-top: 36px;
+  text-align: center;
+}
+
+/* ===================== STORY ===================== */
+.story {
+  background: var(--rmw-cream);
+  padding: 96px 0;
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.story-image {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--rmw-green);
+  background-image: url('../assets/bg-green-granite.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(13, 58, 43, 0.18);
+}
+
+.story-image::after {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(212, 176, 112, 0.5);
+  pointer-events: none;
+}
+
+.story-image .story-mark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  filter: grayscale(1) invert(1) brightness(1.28) contrast(0.92)
+          drop-shadow(0 2px 4px rgba(0,0,0,0.6))
+          drop-shadow(0 0 14px rgba(255,255,255,0.45));
+}
+
+.story-content .section-title { margin-bottom: 22px; }
+
+.story-content p {
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+}
+
+.story-actions {
+  margin-top: 28px;
+}
+
+/* ===================== CTA BAND ===================== */
+.cta-band {
+  position: relative;
+  background-color: var(--rmw-green);
+  background-image:
+    linear-gradient(135deg, rgba(10,46,34,0.78) 0%, rgba(13,58,43,0.62) 60%, rgba(13,58,43,0.85) 100%),
+    url('../assets/bg-green-granite.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  padding: 80px 0;
+  text-align: center;
+}
+
+.cta-band .section-title { color: #fff; }
+.cta-band .section-lead { color: rgba(255,255,255,0.85); margin: 0 auto 32px; }
+
+/* ===================== BREAKPOINTS ===================== */
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; padding: 72px 0 80px; }
+  .hero-side { order: -1; }
+  .hero-badge-card { width: 220px; padding: 28px 22px; }
+  .hero-badge-card .badge-25-years { width: 130px; height: 120px; }
+
+  .value-grid { grid-template-columns: 1fr 1fr; }
+  .teaser-grid { grid-template-columns: repeat(3, 1fr); }
+  .story-grid { grid-template-columns: 1fr; gap: 40px; }
+  .story-image { aspect-ratio: 16 / 11; max-width: 480px; margin: 0 auto; }
+}
+
+@media (max-width: 720px) {
+  .hero-inner { padding: 56px 0 64px; }
+  .hero-title { font-size: clamp(34px, 9vw, 48px); }
+  .hero-sub { font-size: 15px; }
+  .hero-actions .btn { flex: 1; min-width: 0; }
+
+  .teaser-head { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .teaser-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
+
+@media (max-width: 480px) {
+  .value-grid { grid-template-columns: 1fr; gap: 18px; }
+  .value-card { padding: 18px 8px; }
+  .teaser-grid { gap: 10px; }
+  .story { padding: 64px 0; }
+  .story-content p { font-size: 15px; }
+  .cta-band { padding: 56px 0; }
+  .hero-badge-card { width: 200px; padding: 22px 18px; }
+}

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rajasthan Marble World — Invoice / Quotation</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/invoice-toolbar.css">
+</head>
+<body>
+
+  <!-- screen-only toolbar; hidden in print -->
+  <div class="invoice-toolbar no-print">
+    <a href="quotation.html" class="toolbar-btn toolbar-btn-ghost">← Back to Dashboard</a>
+    <button type="button" class="toolbar-btn toolbar-btn-primary" id="printBtn">Print / Save PDF</button>
+  </div>
+
+  <div class="invoice-page">
+
+    <!-- ============================================================
+         HEADER
+         ============================================================ -->
+    <header class="invoice-header">
+      <div class="header-marble-panel">
+        <div class="logo-stack">
+          <img class="logo-rmw" src="assets/logo-rmw.png" alt="RMW">
+          <span class="logo-est">EST. 1999</span>
+        </div>
+      </div>
+
+      <div class="header-title-block">
+        <h1 class="brand-title">
+          <span class="brand-line-1">RAJASTHAN</span>
+          <span class="brand-line-2">MARBLE WORLD</span>
+        </h1>
+        <p class="brand-tagline">PREMIUM MARBLE&nbsp;&nbsp;|&nbsp;&nbsp;EXCEPTIONAL QUALITY&nbsp;&nbsp;|&nbsp;&nbsp;TIMELESS BEAUTY</p>
+      </div>
+
+      <div class="header-badge" aria-label="25 Years of Excellence">
+        <svg class="badge-25-years" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 110">
+          <defs>
+            <symbol id="laurelLeaf" viewBox="-8 -3 16 6" overflow="visible">
+              <path d="M -7 0 Q 0 -3 7 0 Q 0 3 -7 0 Z"/>
+            </symbol>
+          </defs>
+
+          <!-- LEFT LAUREL BRANCH -->
+          <g fill="#0d3a2b">
+            <use href="#laurelLeaf" x="-8" y="-3" width="16" height="6" transform="translate(22 96) rotate(-125)"/>
+            <use href="#laurelLeaf" x="-8" y="-3" width="16" height="6" transform="translate(14 82) rotate(-108)"/>
+            <use href="#laurelLeaf" x="-8" y="-3" width="16" height="6" transform="translate(10 66) rotate(-92)"/>
+            <use href="#laurelLeaf" x="-8" y="-3" width="16" height="6" transform="translate(11 50) rotate(-78)"/>
+            <use href="#laurelLeaf" x="-8" y="-3" width="16" height="6" transform="translate(16 35) rotate(-62)"/>
+            <use href="#laurelLeaf" x="-8" y="-3" width="16" height="6" transform="translate(25 22) rotate(-46)"/>
+          </g>
+
+          <!-- RIGHT LAUREL BRANCH -->
+          <g fill="#0d3a2b">
+            <use href="#laurelLeaf" x="-8" y="-3" width="16" height="6" transform="translate(98 96) rotate(125)"/>
+            <use href="#laurelLeaf" x="-8" y="-3" width="16" height="6" transform="translate(106 82) rotate(108)"/>
+            <use href="#laurelLeaf" x="-8" y="-3" width="16" height="6" transform="translate(110 66) rotate(92)"/>
+            <use href="#laurelLeaf" x="-8" y="-3" width="16" height="6" transform="translate(109 50) rotate(78)"/>
+            <use href="#laurelLeaf" x="-8" y="-3" width="16" height="6" transform="translate(104 35) rotate(62)"/>
+            <use href="#laurelLeaf" x="-8" y="-3" width="16" height="6" transform="translate(95 22) rotate(46)"/>
+          </g>
+
+          <!-- "25" centerpiece -->
+          <text x="60" y="56" text-anchor="middle"
+                font-family="'Cormorant Garamond', 'Times New Roman', serif"
+                font-size="46" font-weight="500" fill="#0d3a2b"
+                dominant-baseline="middle">25</text>
+
+          <!-- "YEARS OF" / "EXCELLENCE" -->
+          <text x="60" y="82" text-anchor="middle"
+                font-family="'Inter', 'Helvetica', sans-serif"
+                font-size="7.2" font-weight="600" letter-spacing="1.6" fill="#0d3a2b">YEARS OF</text>
+          <text x="60" y="93" text-anchor="middle"
+                font-family="'Inter', 'Helvetica', sans-serif"
+                font-size="7.2" font-weight="600" letter-spacing="1.6" fill="#0d3a2b">EXCELLENCE</text>
+        </svg>
+      </div>
+    </header>
+
+    <!-- ============================================================
+         INVOICE META
+         ============================================================ -->
+    <section class="invoice-meta">
+      <div class="dealer-tagline">
+        Premium Marble &amp; Granite Dealers<br>
+        Serving Quality for Over 25 Years
+      </div>
+
+      <div class="invoice-info">
+        <div class="invoice-info-title">INVOICE / QUOTATION</div>
+        <div class="invoice-info-box">
+          <div class="invoice-info-row">
+            <span class="invoice-info-label">Invoice / Quote No.</span>
+            <span class="invoice-info-sep">:</span>
+            <span class="invoice-info-value" id="invInvoiceNo">—</span>
+          </div>
+          <div class="invoice-info-row">
+            <span class="invoice-info-label">Date</span>
+            <span class="invoice-info-sep">:</span>
+            <span class="invoice-info-value" id="invDate">—</span>
+          </div>
+          <div class="invoice-info-row">
+            <span class="invoice-info-label">Validity</span>
+            <span class="invoice-info-sep">:</span>
+            <span class="invoice-info-value" id="invValidity">30 Days</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         BILL TO
+         ============================================================ -->
+    <section class="bill-to">
+      <div class="bill-to-label">BILL TO</div>
+      <div class="bill-to-lines bill-to-lines--filled" id="billToLines">
+        <!-- populated by invoice.js -->
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ITEMS TABLE
+         ============================================================ -->
+    <div class="items-table-wrap">
+      <table class="items-table">
+        <thead>
+          <tr>
+            <th class="col-sno">Sr.<br>No.</th>
+            <th class="col-mat">Material</th>
+            <th class="col-desc">Description</th>
+            <th class="col-area">Area <span class="unit">(sq ft)</span></th>
+            <th class="col-rate">Rate <span class="unit">(&#8377; / sq ft)</span></th>
+            <th class="col-amt">Amount <span class="unit">(&#8377;)</span></th>
+          </tr>
+        </thead>
+
+        <tbody id="invItemsBody">
+          <!-- populated by invoice.js -->
+        </tbody>
+
+        <tfoot id="invTotalsFoot">
+          <!-- populated by invoice.js -->
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- ============================================================
+         TERMS + SIGNATURE
+         ============================================================ -->
+    <section class="invoice-footer-blocks">
+      <div class="terms">
+        <div class="terms-title">TERMS &amp; CONDITIONS</div>
+        <ul class="terms-list">
+          <li>All payments to be made in INR.</li>
+          <li>GST @ 18% as applicable.</li>
+          <li>Payment Terms: 50% advance along with order confirmation, 50% before dispatch.</li>
+          <li>Delivery Timeline: 7 &ndash; 10 working days from the date of advance payment (subject to material availability).</li>
+          <li>Transportation &amp; unloading to be borne by the customer.</li>
+          <li>No return or exchange once the material is dispatched.</li>
+          <li>This quotation is valid for 30 days from the date above.</li>
+        </ul>
+      </div>
+
+      <div class="signature-block">
+        <div class="signature-for">For Rajasthan Marble World</div>
+        <img class="signature-img" src="assets/signature.png" alt="">
+        <div class="signature-label">Authorised Signatory</div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         THANK YOU
+         ============================================================ -->
+    <section class="thankyou-strip">
+      Thank you for considering Rajasthan Marble World.<br>
+      We look forward to serving you with the finest quality marble and granite.
+    </section>
+
+    <!-- ============================================================
+         PAGE FOOTER
+         ============================================================ -->
+    <footer class="page-footer">
+      <div class="footer-block">
+        <div class="footer-icon"><img src="assets/icon-location.svg" alt=""></div>
+        <div class="footer-block-content">
+          <div class="footer-block-title">Showrooms</div>
+          <div class="footer-address">
+            Plot No. 5/6, Sy. No. 614, Pedda Amberpet,<br>
+            Laxman Reddy Palem, R.R. Dist, Hyderabad.
+          </div>
+          <div class="footer-address">
+            Plot No. 40 &amp; 41, Adarsha Nagar,<br>
+            Chengicherla (V), R.R. Dist, Hyderabad.
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-contacts">
+        <div class="footer-contact-row">
+          <div class="footer-icon"><img src="assets/icon-phone.svg" alt=""></div>
+          <div class="footer-block-content">
+            <span class="footer-contact-name">Yogesh Jain</span><br>
+            +91 98666 35165
+          </div>
+        </div>
+        <div class="footer-contact-row">
+          <div class="footer-icon"><img src="assets/icon-web.svg" alt=""></div>
+          <div class="footer-block-content">
+            rajasthanmarbleworld17@gmail.com
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-tagline">
+        <div class="footer-seal">
+          <img src="assets/seal-rmw.png" alt="">
+        </div>
+        <div class="footer-tagline-text">
+          Exclusive Range.<br>
+          Unmatched Quality.<br>
+          Timeless Elegance.
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="js/colors.js"></script>
+  <script src="js/invoice.js"></script>
+</body>
+</html>

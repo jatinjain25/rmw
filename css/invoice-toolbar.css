@@ -1,0 +1,91 @@
+/* Screen-only toolbar for the generated invoice page.
+   Hidden during print. */
+
+.invoice-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #0d3a2b;
+  border-bottom: 2px solid #b8924a;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.toolbar-btn {
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 9px 18px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.2;
+  display: inline-block;
+  transition: all 0.15s ease;
+}
+.toolbar-btn-ghost {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255,255,255,0.4);
+}
+.toolbar-btn-ghost:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.8);
+}
+.toolbar-btn-primary {
+  background: #b8924a;
+  color: #fff;
+  border-color: #b8924a;
+}
+.toolbar-btn-primary:hover {
+  background: #d4b070;
+  border-color: #d4b070;
+}
+
+/* Filled bill-to (no dotted lines): render as plain lines */
+.bill-to-lines--filled {
+  font-size: 9.5pt;
+  color: #1a1a1a;
+  line-height: 1.7;
+}
+.bill-to-lines--filled .bill-line {
+  display: block;
+  margin-bottom: 1px;
+}
+
+@media screen and (max-width: 820px) {
+  .invoice-toolbar {
+    padding: 10px 14px;
+    gap: 8px;
+  }
+  .toolbar-btn {
+    padding: 9px 14px;
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    flex: 1;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .invoice-toolbar {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+  .toolbar-btn {
+    padding: 10px 8px;
+    font-size: 11px;
+    letter-spacing: 0.2px;
+  }
+}
+
+@media print {
+  .no-print { display: none !important; }
+}

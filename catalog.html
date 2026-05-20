@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalog — Rajasthan Marble World</title>
+  <meta name="description" content="Explore our curated catalog of premium imported and Indian marble &amp; granite — Black Galaxy, Tan Brown, Royal Black, Premium White and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/catalog.css">
+</head>
+<body>
+
+  <!-- =================== NAV =================== -->
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand" aria-label="Rajasthan Marble World — Home">
+        <span class="nav-brand-mark"><img src="assets/logo-rmw.png" alt=""></span>
+        <span class="nav-brand-text">
+          <span class="nav-brand-title">Rajasthan Marble World</span>
+          <span class="nav-brand-sub">Est. 1999</span>
+        </span>
+      </a>
+
+      <nav class="nav-menu" aria-label="Primary">
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="catalog.html">Catalog</a></li>
+          <li><a href="quotation.html">Quotation</a></li>
+        </ul>
+        <a href="quotation.html" class="nav-cta">Get Quotation →</a>
+      </nav>
+
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- =================== PAGE HERO =================== -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="section-kicker">Catalog</div>
+      <h1 class="page-hero-title">Premium Marble &amp; Granite</h1>
+      <p class="page-hero-sub">A curated selection of materials we keep in stock at our Hyderabad showrooms — hand-picked for color, finish, and durability.</p>
+    </div>
+  </section>
+
+  <!-- =================== FILTERS =================== -->
+  <section class="catalog-filters">
+    <div class="container">
+      <div class="filter-row" id="catalogFilters">
+        <button class="filter-chip active" data-cat="all"    type="button">All</button>
+        <button class="filter-chip"        data-cat="whites" type="button">Whites</button>
+        <button class="filter-chip"        data-cat="blacks" type="button">Blacks</button>
+        <button class="filter-chip"        data-cat="browns" type="button">Browns</button>
+        <button class="filter-chip"        data-cat="blues"  type="button">Blues</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== GRID =================== -->
+  <section class="catalog-section">
+    <div class="container">
+      <div class="catalog-grid" id="catalogGrid"></div>
+    </div>
+  </section>
+
+  <!-- =================== FOOTER =================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-col-title">Showrooms</div>
+          <div class="footer-address-block">
+            <div class="footer-address">
+              Plot No. 5/6, Sy. No. 614,<br>Pedda Amberpet,<br>Laxman Reddy Palem,<br>R.R. Dist, Hyderabad.
+            </div>
+          </div>
+          <div class="footer-address-block">
+            <div class="footer-address">
+              Plot No. 40 &amp; 41, Adarsha Nagar,<br>Chengicherla (V),<br>R.R. Dist, Hyderabad.
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Get in Touch</div>
+          <ul class="footer-contacts-list">
+            <li>
+              <span class="footer-contact-name">Yogesh Jain</span>
+              <span class="footer-contact-line"><a href="tel:+919866635165">+91 98666 35165</a></span>
+            </li>
+            <li><span class="footer-contact-line"><a href="mailto:rajasthanmarbleworld17@gmail.com">rajasthanmarbleworld17@gmail.com</a></span></li>
+            <li><span class="footer-contact-line"><a href="quotation.html">Get a Quotation →</a></span></li>
+          </ul>
+        </div>
+
+        <div class="footer-tagline-col">
+          <div class="footer-tagline-mark">RMW</div>
+          <div class="footer-tagline">Exclusive Range.<br>Unmatched Quality.<br>Timeless Elegance.</div>
+        </div>
+      </div>
+
+      <div class="footer-bar">
+        <div>© 1999–<span id="year">2026</span> Rajasthan Marble World. All rights reserved.</div>
+        <div>Premium Marble · Exceptional Quality · Timeless Beauty</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/site.js"></script>
+  <script src="js/catalog.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
