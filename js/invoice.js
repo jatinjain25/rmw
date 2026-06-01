@@ -173,13 +173,15 @@
     fit.style.width = '';
     fit.style.height = '';
 
-    // Force the page to A4 vertical bounds for measurement
-    const pageRect = page.getBoundingClientRect();
-    const targetH  = Math.max(pageRect.height, A4_HEIGHT_PX);
+    // Target is always exactly one A4 page. We must NOT use the on-screen page
+    // height here: .invoice-page has min-height:297mm and is a flex column, so
+    // when content overflows it grows past 297mm — measuring that would make the
+    // target equal the natural height and the scale-down would never fire.
+    const targetH  = A4_HEIGHT_PX;
     const naturalH = fit.scrollHeight;
 
     if (naturalH > targetH + 0.5) {
-      const scale = (targetH / naturalH) * 0.998; // 0.2% safety margin
+      const scale = (targetH / naturalH) * 0.99; // ~1% safety margin so nothing clips
       fit.style.transformOrigin = 'top left';
       fit.style.transform = `scale(${scale})`;
       // Compensate the width so the visual width still equals 210mm after scaling
