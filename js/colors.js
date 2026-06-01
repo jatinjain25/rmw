@@ -16,4 +16,8 @@ window.MARBLE_COLORS = [
   { id: 'tan-brown-red',     name: 'Tan Brown Red',     image: 'assets/colors/tan-brown-red.jpg',     base: '#3a1f12', accent: '#a45a32', description: 'Natural red & brown blend.' },
   { id: 'tan-red',           name: 'Tan Red',           image: 'assets/colors/tan-red.jpg',           base: '#3a1a14', accent: '#a8412a', description: 'Vibrant red granite.' },
   { id: 'tiki-brown',        name: 'Tiki Brown',        image: 'assets/colors/tiki-brown.jpg',        base: '#3a2418', accent: '#a86a3a', description: 'Warm brown natural granite.' },
+  { id: 'jaisalmer-yellow', name: 'Jaisalmer Yellow', image: 'assets/granites/Jaisalmer Yellow.jpg', base: '#c37c25', accent: '#cc872e', description: 'Premium Jaisalmer Yellow granite.' },
+  { id: 'kota-stone', name: 'Kota Stone', image: 'assets/granites/Kota Stone.jpeg', base: '#3c3d3e', accent: '#8f9191', description: 'Premium Kota Stone granite.' },
+  { id: 'lakha-red', name: 'Lakha Red', image: 'assets/granites/Lakha Red.webp', base: '#763320', accent: '#a94d30', description: 'Premium Lakha Red granite.' },
+  { id: 'telephone-black', name: 'Telephone Black', image: 'assets/granites/Telephone Black.jpg', base: '#08080d', accent: '#363231', description: 'Premium Telephone Black granite.' },
 ];
