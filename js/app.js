@@ -73,8 +73,7 @@
     const row = {
       id: nextRowId++,
       colorId: data?.colorId || null,
-      isCustom: data?.isCustom || false,
-      customName: data?.customName ?? '',
+      name: data?.name ?? '',   // optional display-name override
       area: data?.area ?? '',
       rate: data?.rate ?? '',
       description: data?.description ?? '',
@@ -95,30 +94,25 @@
     el.querySelector('.rate-input').value = row.rate;
     el.querySelector('.desc-input').value = row.description;
 
+    const nameInput = el.querySelector('.mat-name-input');
+    nameInput.value = row.name;
+
     if (row.colorId) {
       const color = findColor(row.colorId);
       if (color) {
         applySwatchVars(el.querySelector('.swatch'), color);
         el.querySelector('.color-name').textContent = color.name;
+        // Empty name box falls back to the colour name — show it as placeholder.
+        nameInput.placeholder = color.name;
       }
-    }
-
-    // Custom mode: show the name input instead of the colour picker.
-    if (row.isCustom) {
-      el.querySelector('.color-pick').hidden = true;
-      const custom = el.querySelector('.custom-mat');
-      custom.hidden = false;
-      custom.querySelector('.custom-name-input').value = row.customName;
     }
 
     // Wire events
     el.querySelector('.color-pick').addEventListener('click', () => openColorModal(row.id));
 
-    el.querySelector('.custom-name-input').addEventListener('input', (e) => {
-      row.customName = e.target.value;
+    nameInput.addEventListener('input', (e) => {
+      row.name = e.target.value;
     });
-
-    el.querySelector('.custom-revert').addEventListener('click', () => revertCustom(row.id));
 
     el.querySelector('.area-input').addEventListener('input', (e) => {
       row.area = e.target.value;
@@ -146,18 +140,17 @@
     if (state.rows.length === 1) {
       // Reset the single remaining row instead of leaving zero rows.
       const row = state.rows[0];
-      row.colorId = null; row.area = ''; row.rate = ''; row.description = '';
-      row.isCustom = false; row.customName = '';
+      row.colorId = null; row.area = ''; row.rate = ''; row.description = ''; row.name = '';
       const el = itemsBody.querySelector(`[data-row-id="${row.id}"]`);
       if (el) {
         el.querySelector('.area-input').value = '';
         el.querySelector('.rate-input').value = '';
         el.querySelector('.desc-input').value = '';
-        el.querySelector('.custom-mat').hidden = true;
-        el.querySelector('.custom-name-input').value = '';
-        el.querySelector('.color-pick').hidden = false;
+        const nameInput = el.querySelector('.mat-name-input');
+        nameInput.value = '';
+        nameInput.placeholder = 'Display name (optional)';
         applySwatchVars(el.querySelector('.swatch'), null);
-        el.querySelector('.color-name').textContent = 'Select colour';
+        el.querySelector('.color-name').textContent = 'Select colour (optional)';
         updateRowAmount(el, row);
       }
       computeTotals();
@@ -220,18 +213,6 @@
     const list = q ? COLORS.filter(c => c.name.toLowerCase().includes(q)) : COLORS;
 
     colorGrid.innerHTML = '';
-
-    // Always-available "Custom granite" action — type your own name instead of
-    // picking from the catalogue.
-    const customCard = document.createElement('button');
-    customCard.type = 'button';
-    customCard.className = 'color-card color-card--custom';
-    customCard.innerHTML =
-      '<span class="custom-card-icon">✏️</span>' +
-      '<span class="label">Custom granite<br><small>type your own</small></span>';
-    customCard.addEventListener('click', () => selectCustom());
-    colorGrid.appendChild(customCard);
-
     list.forEach(color => {
       const card = document.createElement('button');
       card.type = 'button';
@@ -265,6 +246,9 @@
       applySwatchVars(el.querySelector('.swatch'), color);
       el.querySelector('.color-name').textContent = color.name;
 
+      // Empty name box falls back to the colour name — surface it as placeholder.
+      el.querySelector('.mat-name-input').placeholder = color.name;
+
       // Auto-fill description if the user hasn't typed one yet.
       if (!row.description && color.description) {
         row.description = color.description;
@@ -272,40 +256,6 @@
       }
     }
     closeColorModal();
-  }
-
-  function selectCustom() {
-    const row = state.rows.find(r => r.id === state.activeRowId);
-    if (!row) { closeColorModal(); return; }
-    row.isCustom = true;
-    row.colorId = null;
-    const el = itemsBody.querySelector(`[data-row-id="${row.id}"]`);
-    if (el) {
-      el.querySelector('.color-pick').hidden = true;
-      const custom = el.querySelector('.custom-mat');
-      custom.hidden = false;
-      const input = custom.querySelector('.custom-name-input');
-      input.value = row.customName;
-      setTimeout(() => input.focus(), 50);
-    }
-    closeColorModal();
-  }
-
-  function revertCustom(rowId) {
-    const row = state.rows.find(r => r.id === rowId);
-    if (!row) return;
-    row.isCustom = false;
-    row.customName = '';
-    row.colorId = null;
-    const el = itemsBody.querySelector(`[data-row-id="${rowId}"]`);
-    if (el) {
-      el.querySelector('.custom-mat').hidden = true;
-      el.querySelector('.custom-name-input').value = '';
-      const pick = el.querySelector('.color-pick');
-      pick.hidden = false;
-      applySwatchVars(el.querySelector('.swatch'), null);
-      el.querySelector('.color-name').textContent = 'Select colour';
-    }
   }
 
   // ---------- Reset ----------
@@ -328,15 +278,15 @@
 
   // ---------- Generate invoice ----------
   function generateInvoice() {
-    // A row is usable if it has either a catalogue colour or a custom name,
+    // A row is usable if it has either a catalogue colour or a typed name,
     // plus a positive area and rate.
-    const hasMaterial = (r) => r.colorId || (r.isCustom && r.customName.trim());
+    const hasMaterial = (r) => r.colorId || r.name.trim();
     const isUsable = (r) => hasMaterial(r) && (parseFloat(r.area) > 0) && (parseFloat(r.rate) > 0);
 
     // Validate at least one populated row
     const populated = state.rows.filter(isUsable);
     if (!populated.length) {
-      alert('Add at least one line item with a colour (or custom granite name), area, and rate.');
+      alert('Add at least one line item with a colour (or granite name), area, and rate.');
       return;
     }
 
@@ -354,22 +304,12 @@
         validity: $('#invoiceValidity').value.trim() || '30 Days',
       },
       items: state.rows.filter(isUsable).map(r => {
-        if (r.isCustom) {
-          return {
-            colorId:     null,
-            name:        r.customName.trim(),
-            base:        '#f5efe3',
-            accent:      '#d9d1c1',
-            image:       '',
-            description: r.description || '',
-            area:        parseFloat(r.area) || 0,
-            rate:        parseFloat(r.rate) || 0,
-          };
-        }
         const c = findColor(r.colorId);
+        // Typed name overrides the catalogue name; image always follows the
+        // selected colour (blank for a name-only custom item).
         return {
-          colorId:     r.colorId,
-          name:        c ? c.name : '',
+          colorId:     r.colorId || null,
+          name:        r.name.trim() || (c ? c.name : ''),
           base:        c ? c.base : '#f5efe3',
           accent:      c ? c.accent : '#d9d1c1',
           image:       c ? c.image : '',
