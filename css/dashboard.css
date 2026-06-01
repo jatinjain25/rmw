@@ -342,6 +342,47 @@ input, textarea, select, button { font-family: inherit; color: inherit; }
   text-transform: none;
 }
 
+/* Custom granite material entry (replaces the colour picker on the row) */
+.custom-mat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.custom-name-input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 10px;
+  border: 0.5px solid var(--rule);
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  background: #fff;
+}
+.custom-name-input:focus {
+  outline: none;
+  border-color: var(--rmw-green);
+  box-shadow: 0 0 0 2px rgba(13,58,43,0.08);
+}
+.custom-revert {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 2px;
+  border: 0.5px solid var(--rule);
+  background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  transition: all 0.15s;
+}
+.custom-revert:hover {
+  border-color: var(--rmw-green);
+  color: var(--rmw-green);
+  background: var(--rmw-ivory);
+}
+
 .row-remove {
   width: 26px;
   height: 26px;
@@ -559,6 +600,32 @@ input, textarea, select, button { font-family: inherit; color: inherit; }
   border-color: var(--rmw-green);
   background: var(--rmw-ivory);
   box-shadow: 0 0 0 2px rgba(13,58,43,0.15);
+}
+
+/* "Custom granite" action card — reads as an action, not a swatch */
+.color-card--custom {
+  justify-content: center;
+  border-style: dashed;
+  border-color: var(--rmw-green);
+  background: var(--rmw-ivory);
+  min-height: 80px;
+}
+.color-card--custom:hover {
+  border-color: var(--rmw-green);
+  background: #fff;
+}
+.color-card--custom .custom-card-icon {
+  font-size: 26px;
+  line-height: 1;
+}
+.color-card--custom .label {
+  color: var(--rmw-green);
+}
+.color-card--custom .label small {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.3px;
+  color: var(--muted);
 }
 
 /* ============ "Back to site" button override ============ */
